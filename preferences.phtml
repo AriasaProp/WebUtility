@@ -1,0 +1,124 @@
+<style>
+#header {
+  display: block;
+  height: 150px;
+}
+#container {
+  margin: 5px;
+}
+#container h1 {
+	text-align: center;
+}
+
+#themeCntr {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 15px;
+  margin: 1rem;
+  background-color: #3337;
+  box-shadow: 0 0 5px #3337;
+  border-radius: 15px;
+}
+#themeCntr input {
+  text-align: center;
+  margin: 15px;
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  position: relative;
+  color: var(--fontColor);
+}
+#themeCntr input:before {
+  content: '';
+  width: 75px;
+  height: 75px;
+  border-radius: 37.5px;
+  display: inline-block;
+  position: relative;
+  background-color: var(--tmc, white);
+  border: 2px solid transparent;
+}
+#themeCntr input:checked:before {
+  font-family: "main-icons";
+  font-style: normal;
+  font-size: 25pt;
+  border: 3px solid;
+  speak: never;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  content: '\e807';
+  text-align: right;
+}
+#graphicsQuality {
+  margin: 5px;
+  display: flex;
+}
+#graphicsQuality input[type="range"] {
+  flex-grow: 1;
+  step: 25;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  #themeCntr input {
+    color: var(--fontColorDark);
+  }
+  #themeCntr input:before {
+    background-color: var(--tmcd, black);
+  }
+}
+	</style>
+<div id="container">
+	<h1>Preferences</h1>
+	<h3>Theme : </h3>
+	<div id="themeCntr">
+	  <template>
+		  <input type="radio" name="themeopt" onclick="setThemeVar(this.value)"></input>
+	  </template>
+	</div>
+	<br>
+	<h3>Game : </h3>
+	<form id="graphicsQuality">
+	  Quality : 
+	  <input id="graph_quality" name="range_quality" min="0" max="3" type="range"/>
+	  <button type="submit">Set</button>
+	</div>
+</div>
+<script type="text/javascript">
+function setGraphQuality() {
+  
+}
+function setThemeVar(key) {
+  if(localStorage.getItem('theme') === key) return
+  localStorage.setItem('theme', key)
+  updateStyling()
+}
+document.addEventListener("DOMContentLoaded", () => {
+  var curTheme = localStorage.getItem("theme")
+  fetch("./data/themes.json").then(response => response.json())
+  .then(themeData => {
+    const cntr = document.getElementById("themeCntr")
+    const part = cntr.getElementsByTagName("template")[0].content
+    for (var i = 0; i < themeData.length; ++i) {
+      let a = []
+      for (let j = 0; j < themeData[i].length; ++j)
+        a.push(themeData[i].substring(j*7, (j+1)*7))
+      let clon = part.cloneNode(true)
+      let chil = clon.children[0]
+      cntr.appendChild(clon)
+      chil.style.setProperty("--tmc", a[0])
+      chil.style.setProperty("--tmcd", a[4])
+      chil.value = themeData[i]
+      if ((curTheme === null && i === 0) || (curTheme === themeData[i])) chil.defaultChecked = true
+    }
+  })
+  
+  var graph_quality = localStorage.getItem("graph_quality") || 1
+  const igraph_quality = document.getElementById("graph_quality")
+  igraph_quality.value = igraph_quality;
+  
+})
+</script>

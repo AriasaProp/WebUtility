@@ -1,0 +1,19 @@
+name: Regenerate HTML
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.4.0
+      - run: |
+          git config --global user.email "ikomangwidiadaariasa12@gmail.com"
+          git config --global user.name "AriasaProp"
+          echo "Last Edit: $(date '+%d %B %Y')" > data/last-update.txt
+          git add .
+          git commit -m "update data"
+          git push

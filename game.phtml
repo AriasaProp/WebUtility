@@ -1,0 +1,53 @@
+<style type="text/css">
+#container {
+  font-family: 'Poppins';
+	padding: 15px;
+}
+#container p {
+	text-align: justify;
+	text-indent: 40px;
+}
+#container > h1 {
+  text-align: center;
+}
+#contents {
+  justify-content: center;
+  width: 100%;
+  list-style: none;
+}
+#contents li {
+  margin: 10px 0;
+}
+#contents a {
+  font-weight: 700;
+  text-align: center;
+  display: block;
+  color: black;
+  align-items: center;
+  background-color: var(--opposite);
+  box-shadow: 0 0 1rem #0003;
+  transition: 0.3s;
+  padding: auto;
+  border-radius: 5px; /* 5px rounded corners */
+  font-size: 20pt;
+}
+#contents a i {
+  font-size: 7rem;
+  display: block;
+  margin: 0;
+}
+<?php
+$game_list = scandir(getcwd() . '/games/list');
+
+for ($i = 0; $i < count($game_list); ++$i)
+  $game_list[$i] = str_replace('.phtml', '', $game_list[$i]);
+?>
+</style>
+<div id="container">
+	<h1>Games</h1>
+	<ul id="contents">
+	  <?php foreach ($game_list as $value) {
+      echo '<li><a href="/game/' . $value . '">' . ucwords(str_replace('_', ' ', $value)) . '</a></li>';
+	  } ?>
+	</ul>
+</div>
