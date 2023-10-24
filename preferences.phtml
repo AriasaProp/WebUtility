@@ -59,7 +59,6 @@
 }
 #graphicsQuality input[type="range"] {
   flex-grow: 1;
-  step: 25;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -70,7 +69,7 @@
     background-color: var(--tmcd, black);
   }
 }
-	</style>
+</style>
 <div id="container">
 	<h1>Preferences</h1>
 	<h3>Theme : </h3>
@@ -87,7 +86,16 @@
 	  <button type="submit">Set</button>
 	</div>
 </div>
-<script type="text/javascript">
+<script id="theme-data" type="application/json">
+[
+  "#b3b3b3#efefef#eeeeee#000000#121212#262626#cccccc#f2f2f2",
+  "#bebeff#ccccff#ffffee#000022#00008b#000040#cccc00#e6e6ff",
+  "#b3ffb3#ccffcc#ffeeff#002200#006400#004000#cc00cc#e6ffe6",
+  "#ffb3b3#ffcccc#eeffff#220000#b71c1c#400000#00cccc#ffe6e6",
+  "#e299ff#f8e6ff#e6b3cc#13001a#9b3cc3#3e184e#d279a6#f5ecf9"
+]
+</script>
+<script type="text/javascript" defer>
 function setGraphQuality() {
   
 }
@@ -96,29 +104,26 @@ function setThemeVar(key) {
   localStorage.setItem('theme', key)
   updateStyling()
 }
-document.addEventListener("DOMContentLoaded", () => {
-  var curTheme = localStorage.getItem("theme")
-  fetch("./data/themes.json").then(response => response.json())
-  .then(themeData => {
-    const cntr = document.getElementById("themeCntr")
-    const part = cntr.getElementsByTagName("template")[0].content
-    for (var i = 0; i < themeData.length; ++i) {
-      let a = []
-      for (let j = 0; j < themeData[i].length; ++j)
-        a.push(themeData[i].substring(j*7, (j+1)*7))
-      let clon = part.cloneNode(true)
-      let chil = clon.children[0]
-      cntr.appendChild(clon)
-      chil.style.setProperty("--tmc", a[0])
-      chil.style.setProperty("--tmcd", a[4])
-      chil.value = themeData[i]
-      if ((curTheme === null && i === 0) || (curTheme === themeData[i])) chil.defaultChecked = true
-    }
-  })
-  
-  var graph_quality = localStorage.getItem("graph_quality") || 1
-  const igraph_quality = document.getElementById("graph_quality")
-  igraph_quality.value = igraph_quality;
-  
-})
+
+var curTheme = localStorage.getItem("theme")
+var themeData = JSON.parse(document.getElementById("theme-data").textContent)
+const cntr = document.getElementById("themeCntr")
+const part = cntr.getElementsByTagName("template")[0].content
+for (var i = 0; i < themeData.length; ++i) {
+  let a = []
+  for (let j = 0; j < themeData[i].length; ++j)
+    a.push(themeData[i].substring(j*7, (j+1)*7))
+  let clon = part.cloneNode(true)
+  let chil = clon.children[0]
+  cntr.appendChild(clon)
+  chil.style.setProperty("--tmc", a[0])
+  chil.style.setProperty("--tmcd", a[4])
+  chil.value = themeData[i]
+  if ((curTheme === null && i === 0) || (curTheme === themeData[i])) chil.defaultChecked = true
+}
+
+var graph_quality = localStorage.getItem("graph_quality") || 1
+const igraph_quality = document.getElementById("graph_quality")
+igraph_quality.value = igraph_quality;
+
 </script>

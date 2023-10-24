@@ -40,63 +40,6 @@ require $path_parent . 'core.php';
   <meta http-equiv="x-ua-compatible" content="ie=edge"/>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title><?php echo $page_title; ?></title>
-  <script type="text/javascript">
-    function updateStyling() {
-      // json theme format :
-      // light: nav, body, accent, font
-      // dark: nav, body, accent, font
-      var key = localStorage.getItem("theme")
-      if (!key) return
-      var theme = key.split("#")
-      theme = theme.filter(function(j) {
-        return j !== ""
-      })
-      if (theme.length < 8) return
-      for (let j = 0; j < theme.length; ++j)
-        theme[j] = "#" + theme[j]
-      
-      document.documentElement.style.setProperty('--navColor', theme[0])
-      document.documentElement.style.setProperty('--bodyColor', theme[1])
-      document.documentElement.style.setProperty('--accentColor', theme[2])
-      document.documentElement.style.setProperty('--fontColor', theme[3])
-      
-      document.documentElement.style.setProperty('--navColorDark', theme[4])
-      document.documentElement.style.setProperty('--bodyColorDark', theme[5])
-      document.documentElement.style.setProperty('--accentColorDark', theme[6])
-      document.documentElement.style.setProperty('--fontColorDark', theme[7])
-    }
-    function clockUp(clock) {
-      var clckIntrv
-      var hourTick = clock.getElementById('hour-tick')
-      var minuteTick = clock.getElementById('minute-tick')
-      const d = new Date()
-      const locale = window.navigator.language
-      clock.getElementById('day-name').innerHTML = d.toLocaleDateString(locale, { weekday: 'long' })
-      clock.getElementById('date-day').innerHTML = d.toLocaleDateString(locale, { day: 'numeric' })
-      clock.getElementById('date-my').innerHTML = d.toLocaleDateString(locale, { month: 'short', year: 'numeric' })
-      var update = function (a) { 
-      	let ticks = a.getMinutes() * 6.0 + (d.getSeconds()/10.0)
-      	minuteTick.setAttribute('transform', 'rotate('+ticks+' 100 100)')
-      	ticks /= 360.0
-      	ticks += a.getHours() * 30.0
-      	hourTick.setAttribute('transform', 'rotate('+ticks+' 100 100)')
-      }
-      update(d)
-      setTimeout(() => {
-        update(new Date())
-    	  clckIntrv = setInterval(update(new Date()), 1000)
-      }, 59 - d.getSeconds())
-    	clock.addEventListener('unload', () => {
-        if(!clckIntrv) return
-      	clearInterval(clckIntrv)
-      	clckIntrv = null
-    	})
-    }
-    document.addEventListener("DOMContentLoaded", () => {
-      //handle deafult theme
-      updateStyling()
-    })
-  </script>
 	<style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap');
     @font-face {
@@ -405,7 +348,7 @@ require $path_parent . 'core.php';
 	</header>
 	<?php require $page_content; ?>
 	<footer>
-    <svg id="clock" viewBox="0 0 400 200" width="350" height="175" onload="clockUp(this)">
+    <svg id="clock" viewBox="0 0 400 200" width="350" height="175" onload="clockUp(this);">
     	<circle cx="100" cy="100" r="98" fill="var(--body)" stroke="#000" stroke-width="1" />
     	<path id="hour-tick" fill="#f00" d="M100 30 106 100Q106 108 100 108 94 108 94 100Z" />
     	<path id="minute-tick" fill="var(--font)" d="M100 10 101.5 85 101.5 115 98.5 115 98.5 85Z" />
@@ -450,6 +393,58 @@ require $path_parent . 'core.php';
     <p class="last">Copyright © 2023 AriasaProp</p>
 	</footer>
 </body>
+<script type="text/javascript">
+function updateStyling() {
+  // json theme format :
+  // light: nav, body, accent, font
+  // dark: nav, body, accent, font
+  var key = localStorage.getItem("theme")
+  if (!key) return
+  var theme = key.split("#")
+  theme = theme.filter((j) => {return j !== ""})
+  if (theme.length < 8) return
+  for (let j = 0; j < theme.length; ++j)
+    theme[j] = "#" + theme[j]
+  
+  document.documentElement.style.setProperty('--navColor', theme[0])
+  document.documentElement.style.setProperty('--bodyColor', theme[1])
+  document.documentElement.style.setProperty('--accentColor', theme[2])
+  document.documentElement.style.setProperty('--fontColor', theme[3])
+  
+  document.documentElement.style.setProperty('--navColorDark', theme[4])
+  document.documentElement.style.setProperty('--bodyColorDark', theme[5])
+  document.documentElement.style.setProperty('--accentColorDark', theme[6])
+  document.documentElement.style.setProperty('--fontColorDark', theme[7])
+}
+function clockUp(clock) {
+  var clckIntrv
+  var hourTick = clock.getElementById('hour-tick')
+  var minuteTick = clock.getElementById('minute-tick')
+  const d = new Date()
+  const locale = window.navigator.language
+  clock.getElementById('day-name').innerHTML = d.toLocaleDateString(locale, { weekday: 'long' })
+  clock.getElementById('date-day').innerHTML = d.toLocaleDateString(locale, { day: 'numeric' })
+  clock.getElementById('date-my').innerHTML = d.toLocaleDateString(locale, { month: 'short', year: 'numeric' })
+  var update = function (a) { 
+  	let ticks = a.getMinutes() * 6.0 + (d.getSeconds()/10.0)
+  	minuteTick.setAttribute('transform', 'rotate('+ticks+' 100 100)')
+  	ticks /= 360.0
+  	ticks += a.getHours() * 30.0
+  	hourTick.setAttribute('transform', 'rotate('+ticks+' 100 100)')
+  }
+  update(d)
+  setTimeout(() => {
+    update(new Date())
+	  clckIntrv = setInterval(update(new Date()), 1000)
+  }, 59 - d.getSeconds())
+	clock.addEventListener('unload', () => {
+    if(!clckIntrv) return
+  	clearInterval(clckIntrv)
+  	clckIntrv = null
+	})
+}
+updateStyling()
+</script>
 </html>
 
 
