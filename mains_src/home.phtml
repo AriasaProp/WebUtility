@@ -1,0 +1,21 @@
+<style>
+  main {
+    height: auto;
+    margin: 10px 25px;
+  }
+  main a {
+    border-radius: 15px;
+  }
+  main a:hover {
+    background-color: var(--opposite);
+  }
+</style>
+<main>
+  <?php
+    if (empty($_GET['s'])) {
+      echo '<h5>Hallo</h5>';
+    } else {
+      echo '<h5>Search for: ' . $_GET['s'] . '</h5>';
+    }
+  ?>
+</main>

@@ -1,0 +1,16 @@
+<header>
+	<nav role="navigation">
+		<a href="/"><h2>WebUtility</h2></a>
+    <span></span>
+    <input type="checkbox" id="search-switch" class="hide"/>
+		<div id="nav-menu">
+	    <?php if ($paths[0] !== "preferences") echo '<a href="/preferences"><i>&#xf1de;</i><span class="hide-on-small"> Preferences</span></a>'; ?>
+			<label id="nav-search-switch" for="search-switch"><i></i></label>
+		</div>
+		<form action="/" method="GET">
+		  <input name="s" type="text" placeholder="Search" required>
+		  <button type="reset"><i>&#xf1f8;</i></button>
+		  <button type="submit"><i>&#xe800;</i></button>
+		</form>
+	</nav>
+</header>

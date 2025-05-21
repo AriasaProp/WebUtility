@@ -1,0 +1,56 @@
+<style>
+  body {
+  	background-size: 2500px;
+  	background-position: center;
+  }
+  header {
+  	color: white;
+  	width: 100%;
+  }
+  header nav {
+  	align-items: center;
+  	flex-direction: column;
+  	position: relative;
+  	background-color: transparent;
+  	box-shadow: none;
+  	flex-wrap: nowrap;
+  	margin: 5px;
+  	margin-top: 50px;
+  }
+  header nav a {
+    margin: 0;
+  }
+  header nav #nav-menu {
+    display: inline-block;
+  	margin-top: 0;
+  }
+  header nav #nav-menu a {
+    display: inline-block;
+  	text-shadow: 2px 2px 2px black;
+  }
+  header nav form {
+    display: flex;
+    margin-bottom: 0;
+    max-width: 98%;
+  }
+  main {
+    flex-grow: 1;
+  }
+  /* while screen short */
+  @media screen and (max-width: 800px) {}
+  /* while screen wide */
+  @media screen and (min-width: 800px) {}
+</style>
+<header>
+	<nav role="navigation">
+		<a href="/"><h1>AriasaProp</h1></a>
+		<form action="/" method="GET">
+		  <input name="s" type="text" placeholder="Search" required>
+		  <button type="reset"><i>&#xf1f8;</i></button>
+		  <button type="submit"><i>&#xe800;</i></button>
+		</form>
+		<div id="nav-menu">
+			<a href="/preferences"><i>&#xf1de;</i><span class="hide-on-small"> Preferences</span></a>
+		</div>
+	</nav>
+</header>
